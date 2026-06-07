@@ -1,0 +1,164 @@
+================================================================
+        MANUAL DE TRABAJO - GLUCOCITY
+        Guía para desarrollo, pruebas y despliegue
+================================================================
+
+AMBIENTES
+---------
+  Producción  → https://glucocity.vercel.app (rama main)
+  Staging     → URL preview automática en Vercel (rama develop)
+  Backend     → https://glucocity-production.up.railway.app
+
+RAMAS
+-----
+  main        → código estable en producción, NUNCA tocar directo
+  develop     → integración y pruebas, aquí se juntan los cambios
+  feature/*   → ramas individuales de cada quien para nuevas funciones
+
+
+================================================================
+  FLUJO DE TRABAJO DÍA A DÍA
+================================================================
+
+PASO 1 — ANTES DE EMPEZAR A TRABAJAR
+--------------------------------------
+Siempre actualiza tu rama local antes de crear algo nuevo:
+
+  git checkout develop
+  git pull origin develop
+
+Esto evita conflictos con los cambios de tu compañero.
+
+
+PASO 2 — CREAR TU RAMA DE TRABAJO
+-----------------------------------
+Nunca trabajes directo en develop o main.
+Crea una rama con un nombre descriptivo:
+
+  git checkout -b feature/nombre-de-la-funcionalidad
+
+Ejemplos:
+  git checkout -b feature/registro-glucosa
+  git checkout -b feature/historial-medicamentos
+  git checkout -b fix/error-login
+
+
+PASO 3 — TRABAJA Y GUARDA TUS CAMBIOS
+---------------------------------------
+Mientras desarrollas, guarda tu progreso con commits frecuentes:
+
+  git add .
+  git commit -m "feat: descripción de lo que hiciste"
+
+Convenciones para los mensajes de commit:
+  feat:   nueva funcionalidad
+  fix:    corrección de error
+  chore:  cambios de configuración o estructura
+  style:  cambios de estilos o UI
+  docs:   cambios en documentación
+
+
+PASO 4 — SUBIR TU RAMA A GITHUB
+---------------------------------
+Cuando tengas algo listo para mostrarle a tu compañero:
+
+  git push origin feature/nombre-de-la-funcionalidad
+
+
+PASO 5 — CREAR UN PULL REQUEST A DEVELOP
+------------------------------------------
+1. Ve a https://github.com/Stevenggex/Glucocity
+2. Clic en "Compare & pull request"
+3. Asegúrate que el destino sea la rama "develop" (NO main)
+4. Describe qué cambios hiciste
+5. Asigna a tu compañero para que lo revise
+6. Clic en "Create pull request"
+
+
+PASO 6 — REVISIÓN ENTRE COMPAÑEROS
+-------------------------------------
+El compañero que NO hizo los cambios debe:
+  - Revisar el código en el PR
+  - Probar en la URL de staging que genera Vercel automáticamente
+  - Si está bien → aprobar y hacer merge a develop
+  - Si hay algo que corregir → dejar comentario en el PR
+
+
+PASO 7 — VER LOS CAMBIOS EN STAGING
+--------------------------------------
+Después del merge a develop, Vercel despliega automáticamente.
+La URL de staging aparece en Vercel → Deployments con etiqueta "Preview".
+
+Prueben ahí todas las funcionalidades antes de subir a producción.
+
+
+================================================================
+  DESPLIEGUE A PRODUCCIÓN
+================================================================
+
+Cuando ya probaron todo en staging y está aprobado:
+
+PASO 1 — Crear PR de develop a main
+  1. Ve a https://github.com/Stevenggex/Glucocity
+  2. Clic en "New pull request"
+  3. Base: main  ←  Compare: develop
+  4. Título: "Release: descripción de los cambios"
+  5. Ambos deben revisar y aprobar
+
+PASO 2 — Merge a main
+  Después de aprobado, hacer merge.
+  Vercel y Railway despliegan automáticamente en producción.
+
+PASO 3 — Verificar en producción
+  Entrar a https://glucocity.vercel.app y probar que todo funciona.
+
+
+================================================================
+  REGLAS DEL EQUIPO
+================================================================
+
+  1. NUNCA hacer push directo a main o develop sin PR
+  2. NUNCA subir archivos .env a GitHub (contienen claves secretas)
+  3. SIEMPRE hacer pull antes de crear una rama nueva
+  4. SIEMPRE probar en staging antes de pasar a producción
+  5. Los PRs deben ser revisados por el otro integrante antes del merge
+  6. Si rompes algo en develop, avísale a tu compañero de inmediato
+
+
+================================================================
+  VARIABLES DE ENTORNO
+================================================================
+
+Frontend (fronted/.env) — NO subir a GitHub:
+  VITE_API_URL=https://glucocity-production.up.railway.app
+
+Backend (backend/.env) — NO subir a GitHub:
+  SUPABASE_URL=tu_url_de_supabase
+  SUPABASE_SERVICE_ROLE=tu_service_role_key
+
+Nota: Si eres el compañero que acaba de clonar el repo,
+pídele estas variables al otro integrante del equipo.
+
+
+================================================================
+  COMANDOS DE REFERENCIA RÁPIDA
+================================================================
+
+  git checkout develop              → cambiar a develop
+  git pull origin develop           → actualizar develop
+  git checkout -b feature/xxx       → crear rama nueva
+  git add .                         → preparar cambios
+  git commit -m "mensaje"           → guardar cambios
+  git push origin feature/xxx       → subir rama a GitHub
+  git checkout main                 → cambiar a main
+  git merge develop                 → fusionar develop en main
+
+================================================================
+  CONTACTO DEL PROYECTO
+================================================================
+
+  Repositorio : https://github.com/Stevenggex/Glucocity
+  Frontend    : https://glucocity.vercel.app
+  Backend     : https://glucocity-production.up.railway.app
+
+================================================================
