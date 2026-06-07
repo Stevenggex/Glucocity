@@ -1,0 +1,53 @@
+name: Staging Deploy
+
+on:
+  push:
+    branches:
+      - develop
+
+jobs:
+  deploy-backend:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r backend/requirements.txt
+
+      - name: Run linter
+        run: pip install ruff && ruff check backend/
+
+      - name: Deploy to staging
+        run: echo "Deploying backend to staging..."
+        # Aquí va el comando de deploy según tu hosting (Railway, Render, etc.)
+
+  deploy-frontend:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm ci
+        working-directory: fronted
+
+      - name: Build project
+        run: npm run build
+        working-directory: fronted
+
+      - name: Deploy to staging
+        run: echo "Deploying frontend to staging..."
+        # Aquí va el comando de deploy (Vercel, Netlify, etc.)
